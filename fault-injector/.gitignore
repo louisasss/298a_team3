@@ -1,0 +1,5 @@
+# Generated dataset + logs. The code is the project; the outputs are not.
+logs/
+dataset.csv
+__pycache__/
+*.pyc

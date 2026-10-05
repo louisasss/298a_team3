@@ -1,0 +1,24 @@
+# Research-phase pipeline: the demo app plus one dependent service.
+#
+# The database is a stand-in for now: the app only checks that SHOP_DB_URL
+# is set (see Config.java), it does not open a real connection. That is
+# enough for the file/env-level faults. The Docker-level infra faults
+# (KillDatabase, NetworkPartition in injector/faults/infra.py) are written
+# as stubs and will use this db service once Docker is available -- killing
+# this container mid-pipeline is what makes them real infra failures.
+#
+# Run where Docker exists:  docker compose up --build
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: shopdb
+
+  app:
+    build: ./demo-app
+    depends_on:
+      - db
+    environment:
+      SHOP_DB_URL: jdbc:postgresql://db:5432/shopdb

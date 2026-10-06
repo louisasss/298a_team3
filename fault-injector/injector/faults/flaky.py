@@ -73,3 +73,67 @@ class RandomFailure(Fault):
                       "        double subtotal = order.getQuantity() * order.getUnitPrice();",
                       "    public double lineTotal(Order order) {\n"
                       "        double subtotal = order.getQuantity() * order.getUnitPrice();")
+
+
+class FlakyPingValue(Fault):
+    name = "FlakyPingValue"
+    target_class = "flaky"
+    description = ("Makes ping() answer 'degraded' on ~50% of calls. The pingIsFast test "
+                   "expects 'ok', so it fails intermittently on assertion -- flaky by "
+                   "wrong value, not by timing like RandomSleep.")
+
+    def apply(self, repo_path, params):
+        replace_exact(os.path.join(repo_path, ORDER_SERVICE),
+                      "    public String ping() {\n        return \"ok\";\n    }",
+                      "    public String ping() {\n"
+                      "        // FAULT (flaky): wrong answer on roughly half the calls.\n"
+                      "        if (Math.random() < 0.5) {\n"
+                      "            return \"degraded\";\n"
+                      "        }\n"
+                      "        return \"ok\";\n"
+                      "    }")
+
+    def revert(self, repo_path):
+        replace_exact(os.path.join(repo_path, ORDER_SERVICE),
+                      "    public String ping() {\n"
+                      "        // FAULT (flaky): wrong answer on roughly half the calls.\n"
+                      "        if (Math.random() < 0.5) {\n"
+                      "            return \"degraded\";\n"
+                      "        }\n"
+                      "        return \"ok\";\n"
+                      "    }",
+                      "    public String ping() {\n        return \"ok\";\n    }")
+
+
+class FlakyDbConnection(Fault):
+    name = "FlakyDbConnection"
+    target_class = "flaky"
+    description = ("Makes dbUrl() throw on ~50% of calls, simulating an intermittent db "
+                   "outage. The dbUrlIsConfigured test errors out intermittently -- "
+                   "DeleteEnvVar breaks the same test deterministically.")
+
+    def apply(self, repo_path, params):
+        replace_exact(os.path.join(repo_path, ORDER_SERVICE),
+                      "    public String dbUrl() {\n"
+                      "        return Config.getDbUrl();\n"
+                      "    }",
+                      "    public String dbUrl() {\n"
+                      "        // FAULT (flaky): simulated db outage on roughly half the calls.\n"
+                      "        if (Math.random() < 0.5) {\n"
+                      "            throw new IllegalStateException(\"simulated flaky db outage\");\n"
+                      "        }\n"
+                      "        return Config.getDbUrl();\n"
+                      "    }")
+
+    def revert(self, repo_path):
+        replace_exact(os.path.join(repo_path, ORDER_SERVICE),
+                      "    public String dbUrl() {\n"
+                      "        // FAULT (flaky): simulated db outage on roughly half the calls.\n"
+                      "        if (Math.random() < 0.5) {\n"
+                      "            throw new IllegalStateException(\"simulated flaky db outage\");\n"
+                      "        }\n"
+                      "        return Config.getDbUrl();\n"
+                      "    }",
+                      "    public String dbUrl() {\n"
+                      "        return Config.getDbUrl();\n"
+                      "    }")

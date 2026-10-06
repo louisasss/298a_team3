@@ -5,7 +5,7 @@ import os
 from .base import Fault, replace_exact
 
 PROPS = os.path.join("src", "main", "resources", "application.properties")
-
+POM = "pom.xml"
 
 class DeleteEnvVar(Fault):
     name = "DeleteEnvVar"
@@ -41,6 +41,44 @@ class CorruptConfig(Fault):
         replace_exact(os.path.join(repo_path, PROPS),
                       "tax.rate=not-a-number",
                       "tax.rate=0.08")
+
+
+class MissingTaxRate(Fault):
+    name = "MissingTaxRate"
+    target_class = "infra"
+    description = ("Comments out tax.rate in application.properties. Config throws "
+                   "IllegalStateException ('tax.rate is missing') -- the 'someone deleted "
+                   "a line from the config' deploy failure. CorruptConfig breaks the same "
+                   "file with NumberFormatException instead.")
+
+    def apply(self, repo_path, params):
+        replace_exact(os.path.join(repo_path, PROPS),
+                      "tax.rate=0.08",
+                      "# tax.rate removed by MissingTaxRate fault")
+
+    def revert(self, repo_path):
+        replace_exact(os.path.join(repo_path, PROPS),
+                      "# tax.rate removed by MissingTaxRate fault",
+                      "tax.rate=0.08")
+
+
+
+class BadJavaVersion(Fault):
+    name = "BadJavaVersion"
+    target_class = "infra"
+    description = ("Sets maven.compiler.source to 99 in pom.xml. The toolchain rejects it "
+                   "('invalid source release') -- like a CI image with the wrong JDK. "
+                   "Dies at compilation, before tests.")
+
+    def apply(self, repo_path, params):
+        replace_exact(os.path.join(repo_path, POM),
+                      "<maven.compiler.source>11</maven.compiler.source>",
+                      "<maven.compiler.source>99</maven.compiler.source>")
+
+    def revert(self, repo_path):
+        replace_exact(os.path.join(repo_path, POM),
+                      "<maven.compiler.source>99</maven.compiler.source>",
+                      "<maven.compiler.source>11</maven.compiler.source>")
 
 
 class KillDatabase(Fault):

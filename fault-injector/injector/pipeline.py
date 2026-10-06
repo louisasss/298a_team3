@@ -37,7 +37,7 @@ def run(repo_path, logs_dir, run_id, env_remove=()):
         log_file.write("# command: mvn -B test\n")
         log_file.write("# cwd: " + repo_path + "\n\n")
         log_file.flush()
-        cmd = ["mvn", "-B", "test"]
+        cmd = ["mvn", "-B", "clean", "test"]
         if os.name == "nt":  # Windows: mvn is a .cmd script, launch via cmd.exe
             cmd = ["cmd", "/c"] + cmd
         proc = subprocess.run(

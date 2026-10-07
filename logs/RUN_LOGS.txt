@@ -1,0 +1,41 @@
+=== Total iDFlakies CSV count ===
+     683
+=== Dataset split folders ===
+scripts/docker/icst-dataset
+scripts/docker/icst-dataset/extended-individual-split
+scripts/docker/icst-dataset/comprehensive-individual-split
+=== CSV counts by split ===
+Extended:
+     500
+Comprehensive:
+     183
+=== Filename overlap between splits ===
+       0
+=== Comprehensive CSV examples ===
+--- scripts/docker/icst-dataset/comprehensive-individual-split/pardom-zz.activeandroid.csv
+https://github.com/pardom-zz/ActiveAndroid,08c6335cd7324c6e72da536b0c6fffa5a798f6a2--- scripts/docker/icst-dataset/comprehensive-individual-split/joanzapata.android-pdfview.csv
+https://github.com/JoanZapata/android-pdfview,8f239bb91ab56ff3066739dc44bccf8b1753b0ba--- scripts/docker/icst-dataset/comprehensive-individual-split/rest-assured.rest-assured.csv
+https://github.com/rest-assured/rest-assured,bbb40a08d4b659a841a61c28619cf6063c536cc5=== Extended CSV examples ===
+--- scripts/docker/icst-dataset/extended-individual-split/aerisnju.mylizzie.csv
+https://github.com/aerisnju/mylizzie,6e3785f9661dccaca7420b0df100b39dac42b287,aerisnju.mylizzie,35--- scripts/docker/icst-dataset/extended-individual-split/spring-cloud.spring-cloud-deployer.csv
+https://github.com/spring-cloud/spring-cloud-deployer,80ee572b20cb5693cfefbb347a96a0acb91b299f,spring-cloud.spring-cloud-deployer,73--- scripts/docker/icst-dataset/extended-individual-split/apache.sis.csv
+https://github.com/apache/sis,475ebea8835ba4e3eaf33904ba859be377e9d5b9,apache.sis,43Binary file ./.git/index matches
+./scripts/docker/icst-dataset/extended-individual-split/aerisnju.mylizzie.csv:1:https://github.com/aerisnju/mylizzie,6e3785f9661dccaca7420b0df100b39dac42b287,aerisnju.mylizzie,35
+./scripts/docker/icst-dataset/extended-individual-split/spring-cloud.spring-cloud-deployer.csv:1:https://github.com/spring-cloud/spring-cloud-deployer,80ee572b20cb5693cfefbb347a96a0acb91b299f,spring-cloud.spring-cloud-deployer,73
+./scripts/docker/icst-dataset/extended-individual-split/apache.sis.csv:1:https://github.com/apache/sis,475ebea8835ba4e3eaf33904ba859be377e9d5b9,apache.sis,43
+./scripts/docker/data/2018-12-06/2018-11-01..2018-11-02/csv/spring-cloud.spring-cloud-deployer-yarn.csv:1:https://github.com/spring-cloud/spring-cloud-deployer-yarn,3176f2ffc87b84689a9f78b984ad7f8db576dd6a,spring-cloud.spring-cloud-deployer-yarn
+./scripts/docker/data/2018-12-06/fullNames.csv:60:spring-cloud.spring-cloud-deployer-yarn
+./scripts/docker/data/2018-12-06/fullNames.csv:573:apache.sis
+./scripts/docker/data/2018-12-06/fullNames.csv:1743:aerisnju.mylizzie
+./scripts/docker/data/2018-12-06/fullNames.csv:2765:spring-cloud.spring-cloud-deployer
+./scripts/docker/data/2018-12-06/fullNames.csv:2814:spring-cloud.spring-cloud-deployer-local
+./scripts/docker/data/2018-12-06/allData.csv:60:https://github.com/spring-cloud/spring-cloud-deployer-yarn,3176f2ffc87b84689a9f78b984ad7f8db576dd6a,spring-cloud.spring-cloud-deployer-yarn
+./scripts/docker/data/2018-12-06/allData.csv:573:https://github.com/apache/sis,475ebea8835ba4e3eaf33904ba859be377e9d5b9,apache.sis
+./scripts/docker/data/2018-12-06/allData.csv:1743:https://github.com/aerisnju/mylizzie,6e3785f9661dccaca7420b0df100b39dac42b287,aerisnju.mylizzie
+./scripts/docker/data/2018-12-06/allData.csv:2765:https://github.com/spring-cloud/spring-cloud-deployer,80ee572b20cb5693cfefbb347a96a0acb91b299f,spring-cloud.spring-cloud-deployer
+./scripts/docker/data/2018-12-06/allData.csv:2814:https://github.com/spring-cloud/spring-cloud-deployer-local,5ae91937bf01f44e8d8bbc15793a6dc98fae820b,spring-cloud.spring-cloud-deployer-local
+./scripts/docker/data/2018-12-06/2018-11-28..2018-11-29/csv/spring-cloud.spring-cloud-deployer.csv:1:https://github.com/spring-cloud/spring-cloud-deployer,80ee572b20cb5693cfefbb347a96a0acb91b299f,spring-cloud.spring-cloud-deployer
+./scripts/docker/data/2018-12-06/2018-11-28..2018-11-29/csv/spring-cloud.spring-cloud-deployer-local.csv:1:https://github.com/spring-cloud/spring-cloud-deployer-local,5ae91937bf01f44e8d8bbc15793a6dc98fae820b,spring-cloud.spring-cloud-deployer-local
+./scripts/docker/data/2018-12-06/2018-11-07..2018-11-08/csv/apache.sis.csv:1:https://github.com/apache/sis,475ebea8835ba4e3eaf33904ba859be377e9d5b9,apache.sis
+./scripts/docker/data/2018-12-06/2018-11-19..2018-11-20/csv/aerisnju.mylizzie.csv:1:https://github.com/aerisnju/mylizzie,6e3785f9661dccaca7420b0df100b39dac42b287,aerisnju.mylizzie
+Binary file ./.git/index matches

@@ -79,6 +79,16 @@ log_path, timestamp`. The `label` is ground truth (we caused it). Full logs
 live in `logs/`.A future step is running our log parser over these logs to 
 extract failed tests / stage / exception into extra columns.
 
+`parser/parse_logs.py` turns every log into one feature row in `features.csv`:
+stage (dependency/compile/test), exception, failed test names, Surefire
+counts, and one evidence line per log. The label is carried over untouched --
+the parser never guesses it. Run it from `fault-injector/` with
+`python parser/parse_logs.py`.
+
+`features.csv` columns: `run_id, fault_name, label, stage, exception,
+failed_tests, n_failed_tests, tests_run, failures, errors, skipped,
+failure_signal, log_path`. 
+
 **Splits:** when we train, split by fault name (or by app module), never
 randomly -- the classifier must generalize to *unseen* fault types, not
 memorize our specific edits.

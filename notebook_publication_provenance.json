@@ -1,0 +1,80 @@
+{
+  "original_sha256": {
+    "GHALogs_Phases_1_2_3.executed.ipynb": "166de288c841de1ccabe8ca652eecb410936a81acf026cae270ce37a570ffd46",
+    "adapted_0 - Load data.ipynb": "94a42556f96719c469fb5058956806c5af981c39d6766260aeb9acd558579aa2",
+    "adapted_1 - Dataset metrics.ipynb": "e365243ead504b5ee068d71f098e87745f22e6a00d5c543dc155a0d63a626e55",
+    "phase1/input_manifest.json": "57b4ab35f735423f6738d4c495019a7f0e70b3602d0f770cc05fde021d3add37",
+    "phase1/source_revision.json": "57e01ced8682a2a4e7b58cfce6bc857ad324cf63e76b62eca473f82f26800ea1"
+  },
+  "original_unchanged": true,
+  "notebooks": [
+    {
+      "file": "notebooks/gha_metadata_loader.executed.ipynb",
+      "sha256": "72e5c9396a7604fdd5ad8305dac7c2ea75035bda7837e47325714ce4376c347a",
+      "code_cells": 3,
+      "execution_counts": [
+        1,
+        2,
+        3
+      ],
+      "fresh_kernel": true,
+      "error_outputs": 0
+    },
+    {
+      "file": "notebooks/gha_dataset_metrics.executed.ipynb",
+      "sha256": "0af9a552ed7d3662818ca8d4a821aabc00a66343278b513714df7356d319eec9",
+      "code_cells": 10,
+      "execution_counts": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "fresh_kernel": true,
+      "error_outputs": 0
+    },
+    {
+      "file": "notebooks/gha_java_ci_failure_exploration.executed.ipynb",
+      "sha256": "90787f8f0b5ae8f0594693adcd37b09310561374dbf16622f38970bb103db53d",
+      "code_cells": 16,
+      "execution_counts": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "fresh_kernel": true,
+      "error_outputs": 0
+    }
+  ],
+  "cache_provenance": {
+    "source_index_sha256": "f3a41e2e1ed0af438add4d1917b7fbd6a01bbf9ef58c332c876e66c91b9296d4",
+    "copied_index_sha256": "f3a41e2e1ed0af438add4d1917b7fbd6a01bbf9ef58c332c876e66c91b9296d4"
+  },
+  "method_changes": [
+    "restored actual metadata-import cell in loader copy",
+    "fresh sequential execution including supplement",
+    "projected metrics scans",
+    "corrected small-count display typo"
+  ],
+  "human_validation": "pending",
+  "github_commits": "not created; repository and real Linear IDs required"
+}

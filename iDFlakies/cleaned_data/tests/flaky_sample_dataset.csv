@@ -1,0 +1,17 @@
+repo_url,commit_sha,test_name,flaky_type,total_detection_count,unique_detector_count,avg_intended_length,avg_revealed_length,avg_length_diff,avg_round_time,avg_num_test_runs
+https://github.com/kevinsawicki/http-request,2d62a3e9da726942a93cf16b6e91c0187e6c0136,com.github.kevinsawicki.http.HttpRequestTest.basicProxyAuthentication,OD,3,3,27.0,135.0,108.0,27.549000012333334,1.0
+https://github.com/kevinsawicki/http-request,2d62a3e9da726942a93cf16b6e91c0187e6c0136,com.github.kevinsawicki.http.HttpRequestTest.deleteWithEscapedMappedQueryParams,OD,3,3,38.0,124.0,86.0,27.549000012333334,1.0
+https://github.com/kevinsawicki/http-request,2d62a3e9da726942a93cf16b6e91c0187e6c0136,com.github.kevinsawicki.http.HttpRequestTest.deleteWithEscapedVarargsQueryParams,OD,3,3,39.0,123.0,84.0,27.549000012333334,1.0
+https://github.com/kevinsawicki/http-request,2d62a3e9da726942a93cf16b6e91c0187e6c0136,com.github.kevinsawicki.http.HttpRequestTest.deleteWithMappedQueryParams,OD,3,3,40.0,122.0,82.0,27.549000012333334,1.0
+https://github.com/kevinsawicki/http-request,2d62a3e9da726942a93cf16b6e91c0187e6c0136,com.github.kevinsawicki.http.HttpRequestTest.deleteWithVarargsQueryParams,OD,3,3,41.0,121.0,80.0,27.549000012333334,1.0
+https://github.com/kevinsawicki/http-request,2d62a3e9da726942a93cf16b6e91c0187e6c0136,com.github.kevinsawicki.http.HttpRequestTest.getUrlEncodedWithPercent,OD,3,3,73.0,89.0,16.0,27.549000012333334,1.0
+https://github.com/kevinsawicki/http-request,2d62a3e9da726942a93cf16b6e91c0187e6c0136,com.github.kevinsawicki.http.HttpRequestTest.getUrlEncodedWithSpace,OD,3,3,74.0,88.0,14.0,27.549000012333334,1.0
+https://github.com/kevinsawicki/http-request,2d62a3e9da726942a93cf16b6e91c0187e6c0136,com.github.kevinsawicki.http.HttpRequestTest.getUrlEncodedWithUnicode,OD,3,3,75.0,87.0,12.0,27.549000012333334,1.0
+https://github.com/kevinsawicki/http-request,2d62a3e9da726942a93cf16b6e91c0187e6c0136,com.github.kevinsawicki.http.HttpRequestTest.getWithEscapedMappedQueryParams,OD,3,3,76.0,86.0,10.0,27.549000012333334,1.0
+https://github.com/kevinsawicki/http-request,2d62a3e9da726942a93cf16b6e91c0187e6c0136,com.github.kevinsawicki.http.HttpRequestTest.getWithEscapedVarargsQueryParams,OD,3,3,77.0,85.0,8.0,27.549000012333334,1.0
+https://github.com/kevinsawicki/http-request,2d62a3e9da726942a93cf16b6e91c0187e6c0136,com.github.kevinsawicki.http.HttpRequestTest.getWithMappedQueryParams,OD,3,3,78.0,84.0,6.0,27.549000012333334,1.0
+https://github.com/kevinsawicki/http-request,2d62a3e9da726942a93cf16b6e91c0187e6c0136,com.github.kevinsawicki.http.HttpRequestTest.getWithVarargsQueryParams,OD,3,3,81.0,81.0,0.0,27.549000012333334,1.0
+https://github.com/kevinsawicki/http-request,2d62a3e9da726942a93cf16b6e91c0187e6c0136,com.github.kevinsawicki.http.HttpRequestTest.headWithEscapedMappedQueryParams,OD,3,3,84.0,78.0,6.0,27.549000012333334,1.0
+https://github.com/kevinsawicki/http-request,2d62a3e9da726942a93cf16b6e91c0187e6c0136,com.github.kevinsawicki.http.HttpRequestTest.headWithEscapedVarargsQueryParams,OD,3,3,85.0,77.0,8.0,27.549000012333334,1.0
+https://github.com/kevinsawicki/http-request,2d62a3e9da726942a93cf16b6e91c0187e6c0136,com.github.kevinsawicki.http.HttpRequestTest.headWithMappedQueryParams,OD,3,3,86.0,76.0,10.0,27.549000012333334,1.0
+https://github.com/kevinsawicki/http-request,2d62a3e9da726942a93cf16b6e91c0187e6c0136,com.github.kevinsawicki.http.HttpRequestTest.headWithVaragsQueryParams,OD,3,3,87.0,75.0,12.0,27.549000012333334,1.0

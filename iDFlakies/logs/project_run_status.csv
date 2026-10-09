@@ -1,0 +1,11 @@
+project_csv,status,runtime_minutes
+scripts/docker/icst-dataset/comprehensive-individual-split/abel533.mybatis-spring-boot.csv,COMPLETED,6.31
+scripts/docker/icst-dataset/comprehensive-individual-split/activiti.activiti.csv,COMPLETED,1.13
+scripts/docker/icst-dataset/comprehensive-individual-split/addthis.stream-lib.csv,TIMEOUT,30.0
+scripts/docker/icst-dataset/comprehensive-individual-split/alibaba.arthas.csv,COMPLETED,3.23
+scripts/docker/icst-dataset/comprehensive-individual-split/alibaba.fastjson.csv,COMPLETED,24.83
+scripts/docker/icst-dataset/comprehensive-individual-split/alibaba.jstorm.csv,TIMEOUT,30.01
+scripts/docker/icst-dataset/comprehensive-individual-split/alibaba.otter.csv,COMPLETED,5.97
+scripts/docker/icst-dataset/comprehensive-individual-split/alibaba.sentinel.csv,COMPLETED,0.06
+scripts/docker/icst-dataset/comprehensive-individual-split/alipay.sofa-boot.csv,COMPLETED,1.15
+scripts/docker/icst-dataset/comprehensive-individual-split/alipay.sofa-jarslink.csv,COMPLETED,2.06

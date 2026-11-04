@@ -1,0 +1,7 @@
+{
+  "name": "298a_team3 Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "remoteUser": "vscode"
+}

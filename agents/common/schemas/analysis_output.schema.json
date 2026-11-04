@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Analysis Output",
+  "type": "object",
+  "properties": {
+    "decision": {"type": "string", "enum": ["promote", "abort", "inconclusive"]},
+    "reason": {"type": "string", "maxLength": 300},
+    "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "fallback_used": {"type": "boolean"},
+    "fallback_reason": {"type": "string", "enum": ["model_error", "timeout", "invalid_output"]},
+    "classifier": {
+      "type": "object",
+      "properties": {
+        "called": {"type": "boolean"},
+        "prediction": {"type": "string", "enum": ["healthy", "faulty"]},
+        "probability": {"type": "number", "minimum": 0, "maximum": 1, "description": "Probability the canary is faulty"},
+        "model_version": {"type": "string", "maxLength": 100}
+      },
+      "required": ["called"],
+      "if": {"properties": {"called": {"const": true}}},
+      "then": {"required": ["prediction", "probability", "model_version"]},
+      "else": {"properties": {"prediction": false, "probability": false, "model_version": false}},
+      "additionalProperties": false
+    }
+  },
+  "required": ["decision", "reason", "confidence", "fallback_used"],
+  "if":   { "properties": { "fallback_used": { "const": true } } },
+  "then": { 
+    "properties": {"confidence": {"type": "null"}}, 
+    "required": ["fallback_reason"] 
+    },
+  "else": {
+    "properties": {"confidence": {"type": "number"}},
+    "not": {"required": ["fallback_reason"]}
+    },
+  "additionalProperties": false
+}

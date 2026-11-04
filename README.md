@@ -14,6 +14,8 @@ Sang Ah Lee, Pragya Priyadarshini, Louisa Stumpf, Akshit Tyagi
 
 This project uses a Docker-based development container to provide a consistent toolchain across team machines.
 
+The development container uses Docker-in-Docker so that `kind` can create and manage the local Kubernetes cluster from inside the container.
+
 ### Pinned tools
 
 The development container includes:
@@ -43,23 +45,21 @@ make versions
 make versions
 ```
 
+To create the local Kubernetes cluster, run:
+
+```bash
+make cluster-up
+```
+
+To remove the local cluster, run:
+
+```bash
+make cluster-down
+```
+
 ### Other editors
 
-The development environment can also be built directly with Docker:
-
-```bash
-docker build -t 298a-team3-dev .devcontainer
-```
-
-Then run it from the repository root:
-
-```bash
-docker run --rm -it \
-  -v "$PWD:/workspace" \
-  -w /workspace \
-  298a-team3-dev \
-  bash
-```
+The development environment is defined in `.devcontainer/` and uses Docker-in-Docker to support the local `kind` Kubernetes cluster. VS Code Dev Containers is the recommended way to start the complete development environment.
 
 ## Repository Structure
 
@@ -81,5 +81,8 @@ docker run --rm -it \
 Current targets:
 
 - `make versions` — display the versions of the team development tools
+- `make cluster-up` — create the local `kind` Kubernetes cluster
+- `make cluster-down` — delete the local `kind` Kubernetes cluster
+- `make platform-up` — install the local platform components
 
-Additional targets will be added as the cluster, platform, deployment, and evaluation workflows are implemented.
+Additional targets will be added as the deployment and evaluation workflows are implemented.

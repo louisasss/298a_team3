@@ -64,12 +64,16 @@ The development environment is defined in `.devcontainer/` and uses Docker-in-Do
 ## Repository Structure
 
 - `app/` — application source code, tests, and migrations
+- `agents/` — agent code, shared agent components, and classifier
+  - `agents/common/` — shared schemas, tools, fixtures, and tests for agents
+  - `agents/agent1/` — Agent 1 implementation
+  - `agents/classifier/` — team-trained canary classifier
 - `k8s/` — Kubernetes manifests and Kustomize overlays
 - `argocd/` — Argo CD application definitions
 - `platform/` — platform configuration for Prometheus, Argo Rollouts, and Argo CD
 - `load/` — load-generation configuration
 - `scenarios/` — failure-injection scenarios
-- `scoring/` — agent evaluation and scoring utilities
+- `scoring/` — scoring harness for comparing agent, static, and expected decisions
 - `infra/` — cloud infrastructure and Terraform configuration
 - `scripts/` — cluster and platform automation scripts
 - `docs/` — architecture decisions, contracts, and project documentation

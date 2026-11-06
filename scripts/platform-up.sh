@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "Adding Helm repositories for Argo Rollouts and Prometheus..."
+ARGO_ROLLOUTS_CHART_VERSION="2.43.8"
+ARGOCD_CHART_VERSION="10.11.7"
+PROMETHEUS_CHART_VERSION="92.14.1"
 
-helm repo add argo https://argoproj.github.io/argo-helm
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+echo "Adding Helm repositories..."
+
+helm repo add argo https://argoproj.github.io/argo-helm --force-update
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts --force-update
 
 helm repo update
 
@@ -13,9 +17,30 @@ echo "Installing Argo Rollouts..."
 helm upgrade --install argo-rollouts argo/argo-rollouts \
   --namespace argo-rollouts \
   --create-namespace \
-  --version 2.43.8 \
+  --version "${ARGO_ROLLOUTS_CHART_VERSION}" \
   --values platform/argo-rollouts.yaml \
   --wait \
   --timeout 5m
 
-echo "Argo Rollouts installed successfully."
+echo "Installing Argo CD..."
+
+helm upgrade --install argocd argo/argo-cd \
+  --namespace argocd \
+  --create-namespace \
+  --version "${ARGOCD_CHART_VERSION}" \
+  --values platform/argo-cd.yaml \
+  --wait \
+  --timeout 10m
+
+echo "Installing kube-prometheus-stack..."
+
+helm upgrade --install kube-prometheus-stack \
+  prometheus-community/kube-prometheus-stack \
+  --namespace monitoring \
+  --create-namespace \
+  --version "${PROMETHEUS_CHART_VERSION}" \
+  --values platform/kube-prometheus-stack.yaml \
+  --wait \
+  --timeout 10m
+
+echo "Platform stack installed successfully."

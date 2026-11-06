@@ -1,0 +1,18 @@
+providers:
+  kubernetesIngress:
+    enabled: true
+
+  kubernetesGateway:
+    enabled: false
+
+ingressClass:
+  enabled: true
+  isDefaultClass: true
+
+service:
+  spec:
+    type: NodePort
+
+ports:
+  web:
+    nodePort: 30080

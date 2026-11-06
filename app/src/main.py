@@ -7,8 +7,8 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from src.db import get_db
-from src.models import Shipment, SHIPMENT_STATUSES
-from src.schemas import ShipmentCreate, ShipmentOut
+from src.models import Shipment, SHIPMENT_STATUSES, NEXT_STATUS
+from src.schemas import ShipmentCreate, ShipmentOut, ShipmentStatusUpdate
 
 app = FastAPI(title="ParcelPost")
 
@@ -64,4 +64,21 @@ def get_shipment(shipment_id: int, db: Session = Depends(get_db)):
     shipment = db.get(Shipment, shipment_id)
     if shipment is None:
         raise HTTPException(status_code=404, detail="shipment not found")
+    return shipment
+
+
+@app.patch("/shipments/{shipment_id}/status", response_model=ShipmentOut)
+def update_shipment_status(
+    shipment_id: int, payload: ShipmentStatusUpdate, db: Session = Depends(get_db)
+):
+    if payload.status not in SHIPMENT_STATUSES:
+        raise HTTPException(status_code=400, detail="unknown status")
+    shipment = db.get(Shipment, shipment_id)
+    if shipment is None:
+        raise HTTPException(status_code=404, detail="shipment not found")
+    if NEXT_STATUS.get(shipment.status) != payload.status:
+        raise HTTPException(status_code=409, detail="illegal status transition")
+    shipment.status = payload.status
+    db.commit()
+    db.refresh(shipment)
     return shipment

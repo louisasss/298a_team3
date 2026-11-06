@@ -67,3 +67,44 @@ def test_get_shipment_by_id(client):
 def test_get_shipment_unknown_id_returns_404(client):
     response = client.get("/shipments/9999")
     assert response.status_code == 404
+
+
+def test_patch_status_advances_to_next_status(client):
+    created = create_one(client)
+    response = client.patch(
+        f"/shipments/{created['id']}/status", json={"status": "picked_up"}
+    )
+    assert response.status_code == 200
+    assert response.json()["status"] == "picked_up"
+
+
+def test_patch_status_unknown_value_returns_400(client):
+    created = create_one(client)
+    response = client.patch(
+        f"/shipments/{created['id']}/status", json={"status": "bogus"}
+    )
+    assert response.status_code == 400
+
+
+def test_patch_status_unknown_id_returns_404(client):
+    response = client.patch("/shipments/9999/status", json={"status": "picked_up"})
+    assert response.status_code == 404
+
+
+def test_patch_status_illegal_transition_returns_409(client):
+    created = create_one(client)
+    response = client.patch(
+        f"/shipments/{created['id']}/status", json={"status": "in_transit"}
+    )
+    assert response.status_code == 409
+
+
+def test_patch_status_full_lifecycle_then_terminal_409(client):
+    created = create_one(client)
+    url = f"/shipments/{created['id']}/status"
+    for next_status in ["picked_up", "in_transit", "out_for_delivery", "delivered"]:
+        response = client.patch(url, json={"status": next_status})
+        assert response.status_code == 200
+        assert response.json()["status"] == next_status
+    response = client.patch(url, json={"status": "picked_up"})
+    assert response.status_code == 409

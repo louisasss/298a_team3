@@ -31,3 +31,11 @@ class Shipment(Base):
         default=lambda: datetime.now(timezone.utc),
         onupdate=lambda: datetime.now(timezone.utc),
     )
+
+
+NEXT_STATUS = {
+    "created": "picked_up",
+    "picked_up": "in_transit",
+    "in_transit": "out_for_delivery",
+    "out_for_delivery": "delivered",
+}

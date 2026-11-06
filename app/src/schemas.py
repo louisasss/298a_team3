@@ -17,3 +17,9 @@ class ShipmentOut(BaseModel):
     status: str
     created_at: datetime
     updated_at: datetime
+
+
+class ShipmentStatusUpdate(BaseModel):
+    status: str = Field(min_length=1)
+
+

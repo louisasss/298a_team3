@@ -1,5 +1,5 @@
 import secrets
-from fastapi import Depends, FastAPI, Request
+from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -7,7 +7,7 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from src.db import get_db
-from src.models import Shipment
+from src.models import Shipment, SHIPMENT_STATUSES
 from src.schemas import ShipmentCreate, ShipmentOut
 
 app = FastAPI(title="ParcelPost")
@@ -46,4 +46,22 @@ def create_shipment(payload: ShipmentCreate, db: Session = Depends(get_db)):
     db.add(shipment)
     db.commit()
     db.refresh(shipment)
+    return shipment
+
+
+@app.get("/shipments", response_model=list[ShipmentOut])
+def list_shipments(status: str | None = None, db: Session = Depends(get_db)):
+    if status is not None and status not in SHIPMENT_STATUSES:
+        raise HTTPException(status_code=400, detail="unknown status")
+    query = db.query(Shipment)
+    if status is not None:
+        query = query.filter(Shipment.status == status)
+    return query.order_by(Shipment.id).all()
+
+
+@app.get("/shipments/{shipment_id}", response_model=ShipmentOut)
+def get_shipment(shipment_id: int, db: Session = Depends(get_db)):
+    shipment = db.get(Shipment, shipment_id)
+    if shipment is None:
+        raise HTTPException(status_code=404, detail="shipment not found")
     return shipment

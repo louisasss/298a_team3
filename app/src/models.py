@@ -6,6 +6,14 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 class Base(DeclarativeBase):
     pass
 
+SHIPMENT_STATUSES = [
+    "created",
+    "picked_up",
+    "in_transit",
+    "out_for_delivery",
+    "delivered",
+]
+
 
 class Shipment(Base):
     __tablename__="Shipments"

@@ -1,6 +1,6 @@
 # ADR 001: Demo application scope
 
-**Status:** Proposed — awaiting team sign-off (team meeting, Nov 4, 2026)
+**Status:** Accepted — awaiting team sign-off (team meeting, Nov 4, 2026)
 **Date:** Nov 3, 2026
 **Author:** Akshit Tyagi
 **Issue:** T3-66 — Define the app scope and implement core endpoints with tests

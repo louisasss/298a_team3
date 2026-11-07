@@ -1,0 +1,6 @@
+{
+    "risk_level": "low",
+    "endpoints_touched": [],
+    "watch": "No runtime changes; nothing specific to watch.",
+    "fallback_used": false
+}

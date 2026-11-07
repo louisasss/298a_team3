@@ -1,0 +1,6 @@
+{
+    "risk_level": "medium",
+    "endpoints_touched": ["/items/{id}"],
+    "watch": "",
+    "fallback_used": false
+}

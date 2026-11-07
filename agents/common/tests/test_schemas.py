@@ -5,7 +5,7 @@ import jsonschema
 import pytest
 
 COMMON = Path(__file__).parent.parent
-SCHEMA_NAMES = ["analysis_output", "analysis_input"]
+SCHEMA_NAMES = ["analysis_output", "analysis_input", "ci_output", "release_brief"]
 FIXTURES = COMMON / "fixtures" 
 
 
@@ -53,3 +53,4 @@ def test_invalid_examples_fail(name, path):
     example = load(path)
     with pytest.raises(jsonschema.ValidationError):
         jsonschema.validate(instance=example, schema=schema)
+        

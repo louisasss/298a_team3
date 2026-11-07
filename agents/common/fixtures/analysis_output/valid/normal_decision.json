@@ -1,0 +1,6 @@
+{
+  "decision": "abort",
+  "reason": "Canary error rate is 8.2% vs 0.4% on stable over the last 5 minutes; release brief flagged /items/{id} as changed.",
+  "confidence": 0.92,
+  "fallback_used": false
+}

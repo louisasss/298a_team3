@@ -1,0 +1,7 @@
+{
+  "decision": "promote",
+  "reason": "Canary and stable error rates and p95 latency are within normal range.",
+  "confidence": 0.8,
+  "fallback_used": false,
+  "classifier": { "called": false }
+}

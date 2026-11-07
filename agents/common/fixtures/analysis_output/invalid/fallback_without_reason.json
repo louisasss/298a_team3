@@ -1,0 +1,6 @@
+{
+  "decision": "inconclusive",
+  "reason": "Agent exceeded its time budget; static check had no data.",
+  "confidence": null,
+  "fallback_used": true
+}

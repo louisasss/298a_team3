@@ -1,7 +1,7 @@
 ## ParcelPost app
 
 Demo shipment-tracking service for the canary pipeline project.
-Scope and API are defined in ADR --1 ('docs/adr/001-application.md').
+Scope and API are defined in ADR 001 ('docs/adr/001-application.md').
 
 ## Run the tests
 
@@ -32,7 +32,7 @@ To start over from an empty database:
 
 ## Schema changes must stay backward-compatible
 
-Stable and canary run side by side against ONE database during a rollout, and rollback can swap the pods back to theh old version at any moment - but it cannot roll back the schema. The old code must therefore keep working against the new schema, and the new code against the old one, for the whole rollout window.
+Stable and canary run side by side against ONE database during a rollout, and rollback can swap the pods back to the old version at any moment - but it cannot roll back the schema. The old code must therefore keep working against the new schema, and the new code against the old one, for the whole rollout window.
 
 
 In practice:

@@ -5,9 +5,16 @@ import jsonschema
 import pytest
 
 COMMON = Path(__file__).parent.parent
-SCHEMA_PATH = COMMON / "schemas" / "analysis_output.schema.json"
-FIXTURES = COMMON / "fixtures" / "analysis_output"
+SCHEMA_NAMES = ["analysis_output", "analysis_input"]
+FIXTURES = COMMON / "fixtures" 
 
+
+def cases(kind):
+    return [
+        (name, path)
+        for name in SCHEMA_NAMES
+        for path in sorted((FIXTURES / name / kind).glob("*.json"))
+    ]
 
 def load(path):
     """
@@ -15,31 +22,34 @@ def load(path):
     """
     return json.loads(path.read_text())
 
+def schema_path(name):
+    return COMMON / "schemas" / f"{name}.schema.json"
 
-def test_schema_is_well_formed():
+@pytest.mark.parametrize("name", SCHEMA_NAMES)
+def test_schema_is_well_formed(name):
     """
     load the schema, then check it with Draft202012Validator.check_schema
     """
-    schema = load(SCHEMA_PATH)
+    schema = load(schema_path(name))
     jsonschema.Draft202012Validator.check_schema(schema)
 
 
-@pytest.mark.parametrize("path", sorted((FIXTURES / "valid").glob("*.json")), ids=lambda p: p.name)
-def test_valid_examples_pass(path):
+@pytest.mark.parametrize("name,path", cases("valid"), ids=[f"{n}/{p.name}" for n, p in cases("valid")])
+def test_valid_examples_pass(name, path):
     """
     load schema + example, validate — no error means pass
     """
-    schema = load(SCHEMA_PATH)
+    schema = load(schema_path(name))
     example = load(path)
     jsonschema.validate(instance=example, schema=schema)
     
 
-@pytest.mark.parametrize("path", sorted((FIXTURES / "invalid").glob("*.json")), ids=lambda p: p.name)
-def test_invalid_examples_fail(path):
+@pytest.mark.parametrize("name,path", cases("invalid"), ids=[f"{n}/{p.name}" for n, p in cases("invalid")])
+def test_invalid_examples_fail(name, path):
     """    
     load schema + example, expect jsonschema.ValidationError
     """    
-    schema = load(SCHEMA_PATH)
+    schema = load(schema_path(name))
     example = load(path)
     with pytest.raises(jsonschema.ValidationError):
         jsonschema.validate(instance=example, schema=schema)

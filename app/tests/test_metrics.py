@@ -55,3 +55,44 @@ def test_unmatched_path_is_counted_as_unmatched(client):
 def test_metrics_endpoint_does_not_count_itself(client):
     body = scrape(client)
     assert 'route="/metrics"' not in body
+
+
+def histogram_count(body: str, route: str) -> float:
+    for line in body.splitlines():
+        if (
+            line.startswith("http_request_duration_seconds_count{")
+            and f'route="{route}"' in line
+        ):
+            return float(line.rsplit(" ", 1)[1])
+    return 0.0
+
+
+def bucket_value(body: str, route: str, le: str) -> float:
+    for line in body.splitlines():
+        if (
+            line.startswith("http_request_duration_seconds_bucket{")
+            and f'route="{route}"' in line
+            and f'le="{le}"' in line
+        ):
+            return float(line.rsplit(" ", 1)[1])
+    return 0.0
+
+
+def test_histogram_counts_requests_by_route(client):
+    before = histogram_count(scrape(client), "/healthz")
+    client.get("/healthz")
+    after = histogram_count(scrape(client), "/healthz")
+    assert after - before == 1
+
+
+def test_histogram_inf_bucket_equals_count(client):
+    client.get("/healthz")
+    body = scrape(client)
+    assert bucket_value(body, "/healthz", "+Inf") == histogram_count(body, "/healthz")
+
+
+def test_histogram_uses_the_contract_buckets(client):
+    client.get("/healthz")
+    body = scrape(client)
+    assert 'le="0.01"' in body
+    assert 'le="0.005"' not in body

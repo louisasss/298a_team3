@@ -8,7 +8,7 @@ spec:
 
   source:
     repoURL: https://github.com/louisasss/298a_team3.git
-    targetRevision: sangahlee/t3-73-bootstrap-the-platform-stack-prometheus-argo-rollouts-and
+    targetRevision: main
     path: argocd
     directory:
       recurse: true

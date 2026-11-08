@@ -6,4 +6,5 @@ resources:
   - configmap.yaml
   - services.yaml
   - ingress.yaml
+  - traefikservice.yaml
   - servicemonitor.yaml

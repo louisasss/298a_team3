@@ -49,6 +49,9 @@ spec:
       stableService: app-stable
       canaryService: app-canary
 
+      trafficRouting:
+        traefik:
+          weightedTraefikServiceName: app-traffic
       steps:
       - setWeight: 10
       - pause: {}

@@ -1,0 +1,11 @@
+apiVersion: traefik.io/v1alpha1
+kind: TraefikService
+metadata:
+  name: app-traffic
+spec:
+  weighted:
+    services:
+      - name: app-stable
+        port: 80
+      - name: app-canary
+        port: 80

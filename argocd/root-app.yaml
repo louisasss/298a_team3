@@ -8,7 +8,7 @@ spec:
 
   source:
     repoURL: https://github.com/louisasss/298a_team3.git
-    targetRevision: sangahlee/t3-82-route-canary-traffic-by-exact-weight-through-the-ingress
+    targetRevision: main
     path: argocd
     directory:
       recurse: true

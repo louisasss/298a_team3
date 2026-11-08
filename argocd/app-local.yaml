@@ -8,7 +8,7 @@ spec:
 
   source:
     repoURL: https://github.com/louisasss/298a_team3.git
-    targetRevision: sangahlee/t3-78-expose-the-app-through-services-and-ingress
+    targetRevision: main
     path: k8s/overlays/local
 
   destination:

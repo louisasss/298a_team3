@@ -25,6 +25,17 @@ spec:
           ports:
             - containerPort: 80
 
+          # TODO: Enable once the real app exposes /healthz and /readyz.
+          # livenessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: 80
+          #
+          # readinessProbe:
+          #   httpGet:
+          #     path: /readyz
+          #     port: 80
+
           resources:
             requests:
               cpu: 50m
@@ -37,3 +48,12 @@ spec:
     canary:
       stableService: app-stable
       canaryService: app-canary
+
+      steps:
+      - setWeight: 10
+      - pause: {}
+      - setWeight: 25
+      - pause: {}
+      - setWeight: 50
+      - pause: {}
+      - setWeight: 100

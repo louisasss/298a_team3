@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-local
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/louisasss/298a_team3.git
+    targetRevision: sangahlee/t3-80-convert-the-deployment-to-an-argo-rollout
+    path: k8s/overlays/local
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+
+  syncPolicy:
+    automated:
+      enabled: true
+      prune: true
+      selfHeal: true

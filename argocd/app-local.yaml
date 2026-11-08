@@ -8,7 +8,8 @@ spec:
 
   source:
     repoURL: https://github.com/louisasss/298a_team3.git
-    targetRevision: sangahlee/t3-81-define-canary-steps-and-practice-manual-promote-and-abort    path: k8s/overlays/local
+    targetRevision: sangahlee/t3-81-define-canary-steps-and-practice-manual-promote-and-abort    
+    path: k8s/overlays/local
 
   destination:
     server: https://kubernetes.default.svc

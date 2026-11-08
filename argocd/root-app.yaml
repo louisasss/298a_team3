@@ -8,7 +8,7 @@ spec:
 
   source:
     repoURL: https://github.com/louisasss/298a_team3.git
-    targetRevision: sangahlee/t3-81-define-canary-steps-and-practice-manual-promote-and-abort
+    targetRevision: main
     path: argocd
     directory:
       recurse: true

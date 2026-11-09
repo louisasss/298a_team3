@@ -4,4 +4,3 @@ sqlalchemy==2.0.57
 psycopg[binary]==3.3.8
 pytest==9.2.0
 httpx==0.28.1
-prometheus_client==0.26.0

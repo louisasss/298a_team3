@@ -1,0 +1,4 @@
+.git
+fault-injector
+**/__pycache__
+.pytest_cache

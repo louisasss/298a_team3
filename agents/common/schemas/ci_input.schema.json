@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CI Input",
+  "type": "object",
+  "properties": {
+    "ci_agent_produces": {
+        "type": "string",
+        "enum": ["ci_output", "release_brief"],
+        "description": "CI agent produces either PR comment (ci_output) or release brief (release_brief)"
+    },
+    "base_sha": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{40}$",
+      "description": "the starting point (the PRs base, or the last deployed version)"
+    },
+    "head_sha": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{40}$",
+      "description": "the end point (the PRs latest commit, or the release commit)"
+    },
+    "pr_number": {
+        "type": "integer",
+        "minimum": 1
+    },
+    "test_results_path": {
+        "type": "string",
+        "minLength": 1
+    }
+  },
+  "required": ["ci_agent_produces", "base_sha", "head_sha"],
+  "if": {"properties": {"ci_agent_produces": {"const": "release_brief"}}},
+  "then": {
+    "properties": {
+        "pr_number": false,
+        "test_results_path": false
+    }
+  },
+  "else": {"required": ["pr_number", "test_results_path"]},
+  "additionalProperties": false
+}

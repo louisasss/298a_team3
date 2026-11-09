@@ -5,7 +5,7 @@ import jsonschema
 import pytest
 
 COMMON = Path(__file__).parent.parent
-SCHEMA_NAMES = ["analysis_output", "analysis_input", "ci_output", "release_brief"]
+SCHEMA_NAMES = ["analysis_output", "analysis_input", "ci_output", "release_brief", "ci_input"]
 FIXTURES = COMMON / "fixtures" 
 
 

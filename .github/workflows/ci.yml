@@ -13,7 +13,7 @@ jobs:
         with:
           python-version: "3.10"
       - name: Install Ruff
-        run: pip install Ruff
+        run: pip install ruff==0.17.4
       - name: Lint
         run: ruff check app/
 

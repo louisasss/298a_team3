@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from src.db import get_db
 from src.main import app
 
+
 def make_client(database_url:str) -> TestClient:
     engine = create_engine(database_url)
     testing_session = sessionmaker(bind=engine)

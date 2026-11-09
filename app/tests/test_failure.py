@@ -1,7 +1,9 @@
 import time
+
 import pytest
 
 from src.failure import settings
+
 
 @pytest.fixture(autouse=True)
 def reset_failure_settings():

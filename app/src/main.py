@@ -1,5 +1,6 @@
 import secrets
-from fastapi import Depends, FastAPI, Request, HTTPException
+
+from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -7,10 +8,10 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from src.db import get_db
-from src.models import Shipment, SHIPMENT_STATUSES, NEXT_STATUS
-from src.schemas import ShipmentCreate, ShipmentOut, ShipmentStatusUpdate
-from src.metrics import MetricsMiddleware, metrics_response, VERSION
 from src.failure import maybe_inject_failure
+from src.metrics import VERSION, MetricsMiddleware, metrics_response
+from src.models import NEXT_STATUS, SHIPMENT_STATUSES, Shipment
+from src.schemas import ShipmentCreate, ShipmentOut, ShipmentStatusUpdate
 
 app = FastAPI(title="ParcelPost")
 app.add_middleware(MetricsMiddleware)
@@ -38,7 +39,8 @@ def healthz():
 def readyz(db: Session =  Depends(get_db)):
     try:
         db.execute(text("SELECT 1"))
-    except Exception:
+        # Any failure means not ready: answer 503, never leak a 500.
+    except Exception: # noqa: BLE001
         return JSONResponse(status_code=503, content={"status":"not ready"})
     return {"status":"ready"}
 

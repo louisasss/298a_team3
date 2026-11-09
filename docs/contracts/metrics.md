@@ -57,6 +57,8 @@ Traffic per version is the second query's denominator pattern without
 the division. The classifier's features (error rate, latency, traffic,
 per version) are these same quantities.
 
+An empty or NaN result means insufficient data, not healthy.
+
 ## 5. Out of scope
 Thresholds are not part of this contract; they belong to the
 AnalysisTemplates. How the endpoint is implemented (library or

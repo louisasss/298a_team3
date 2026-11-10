@@ -1,0 +1,7 @@
+{
+  "decision": "inconclusive",
+  "reason": "Analysis request failed validation (empty canary_pod_hash); no usable data for static check.",
+  "confidence": null,
+  "fallback_used": true,
+  "fallback_reason": "invalid_input"
+}

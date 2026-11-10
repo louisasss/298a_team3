@@ -1,0 +1,6 @@
+{
+    "ci_agent_produces": "release_brief",
+    "base_sha": "3f2a9c1e7b8d4f6a0c5e2b9d1f7a3c8e6b4d0f2a",
+    "head_sha": "9e4b7c2a1f8d3e6b0a5c9f2d7e1b4a8c3f6d0e9b",
+    "pr_number": 1
+}

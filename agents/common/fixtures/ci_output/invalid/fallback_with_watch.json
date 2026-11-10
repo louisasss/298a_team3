@@ -1,0 +1,7 @@
+{
+    "risk_level": "unknown",
+    "endpoints_touched": ["/items/{id}"],
+    "watch": "p95 latency and error rate on /items/{id}",
+    "fallback_used": true,
+    "fallback_reason": "model_error"
+}

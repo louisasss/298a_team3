@@ -1,0 +1,6 @@
+{
+    "risk_level": "unknown",
+    "endpoints_touched": [],
+    "fallback_used": true,
+    "fallback_reason": "model_error"
+}

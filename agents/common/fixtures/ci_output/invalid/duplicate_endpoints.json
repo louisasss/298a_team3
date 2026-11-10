@@ -1,0 +1,6 @@
+{
+    "risk_level": "medium",
+    "endpoints_touched": ["/items/{id}", "/items/{id}"],
+    "watch": "p95 latency and error rate on /items/{id}",
+    "fallback_used": false
+}

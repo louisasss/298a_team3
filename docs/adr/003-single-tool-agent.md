@@ -31,16 +31,19 @@ All tools are read-only. No tool can write to the cluster, the repository, or Pr
 * rollout_status, Argo Rollout status
 * pod_logs, canary pod logs
 * canary_classifier, team-trained model over canary vs stable metrics
+* release_brief, obtains release brief information
 
 **Budget per decision:**
-| Limit | CI mode | Analysis Mode | agreement register ID |
-| --- | --- | --- | --- |
-| Max seconds |  |  | D01, D04 |
-| Max tool calls |  |  | D26 |
-| Max tokens |  |  | D26 |
-| Max cost (USD) |  |  | D26 |
+| Limit | CI: PR | CI: Release | Analysis Mode | agreement register ID |
+| --- | --- | --- | --- | --- |
+| Max seconds | 120 | 90 | 30 | D01, D04 |
+| Max tool calls | 8 | 8 | 10 | D26 |
+| Max tokens | 12000 | 15000 | 12000 | D26 |
+| Max cost (USD) | 0.035 | 0.035 | 0.035 | D26 |
 
-Constraint: agent deadline < Web provider timeoutSeconds < analysis interval
+* **Basis:** initial estimates from reasoning: model turns × seconds per turn, tokens per turn, and margin. To be revised after measuring with replay mode.
+* **Cost:** a single ceiling at mid-tier prices ($2 / $10 per million tokens). Small-tier models cost about 20× less, around $0.002 at worst.
+* **Timing chain constraint:** agent deadline (30 s) < Web provider timeoutSeconds (35 s, D02) < analysis interval (60 s, D03, proposed; Pragya to confirm).
 
 **Fallback:**
 Fallback is triggered by one of three failure types: the model call errors, the agent exceeds its time budget, or the agent returns invalid JSON. 
@@ -51,7 +54,7 @@ Fallback is triggered by one of three failure types: the model call errors, the 
 Promote is never the default fallback as it would allow the release to proceed with silent errors that are found by the users. Fallback usage will be flagged with the reason for fallback given. 
 
 **Contract:**
-JSON schemas live in agents/common/schemas/: ci_input, ci_output, analysis_input, analysis_output. Each has one test with one valid example and one invalid example.
+JSON schemas live in agents/common/schemas/: ci_input, ci_output, analysis_input, analysis_output, release_brief. Each has one test with one valid example and one invalid example.
 
 ## Considered options
 1. Hosted LLM + team-trained classifier tool; chosen option

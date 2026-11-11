@@ -21,4 +21,3 @@ platform-up:
 .PHONY: db-setup
 db-setup:
 	cd app && alembic upgrade head && python -m src.seed
-

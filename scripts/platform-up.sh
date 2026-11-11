@@ -43,4 +43,19 @@ helm upgrade --install kube-prometheus-stack \
   --wait \
   --timeout 10m
 
+echo "Configuring agent API key Secret..."
+
+if [[ -n "${AGENT_API_KEY:-}" ]]; then
+  kubectl create secret generic agent-api-key \
+    --namespace default \
+    --from-literal=API_KEY="${AGENT_API_KEY}" \
+    --dry-run=client \
+    -o yaml \
+    | kubectl apply -f -
+
+  echo "Agent API key Secret configured."
+else
+  echo "AGENT_API_KEY not set; skipping agent API key Secret."
+fi
+
 echo "Platform stack installed successfully."

@@ -16,7 +16,7 @@ SHIPMENT_STATUSES = [
 
 
 class Shipment(Base):
-    __tablename__="Shipments"
+    __tablename__="shipments"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     tracking_code: Mapped[str] = mapped_column(String, unique=True, index=True)

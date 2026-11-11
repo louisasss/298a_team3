@@ -1,4 +1,4 @@
-.PHONY: versions cluster-up cluster-down
+.PHONY: versions cluster-up cluster-down platform-up
 
 versions:
 	@echo "=== Team Tool Versions ==="
@@ -15,6 +15,9 @@ cluster-up:
 cluster-down:
 	./scripts/cluster-down.sh
 
+platform-up:
+	./scripts/platform-up.sh
+	
 .PHONY: db-setup
 db-setup:
 	cd app && alembic upgrade head && python -m src.seed

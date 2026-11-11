@@ -14,3 +14,8 @@ cluster-up:
 
 cluster-down:
 	./scripts/cluster-down.sh
+
+.PHONY: db-setup
+db-setup:
+	cd app && alembic upgrade head && python -m src.seed
+

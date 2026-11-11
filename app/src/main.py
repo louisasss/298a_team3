@@ -9,8 +9,10 @@ from sqlalchemy.orm import Session
 from src.db import get_db
 from src.models import Shipment, SHIPMENT_STATUSES, NEXT_STATUS
 from src.schemas import ShipmentCreate, ShipmentOut, ShipmentStatusUpdate
+from src.metrics import MetricsMiddleware, metrics_response
 
 app = FastAPI(title="ParcelPost")
+app.add_middleware(MetricsMiddleware)
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
@@ -30,6 +32,12 @@ def readyz(db: Session =  Depends(get_db)):
     except Exception:
         return JSONResponse(status_code=503, content={"status":"not ready"})
     return {"status":"ready"}
+
+
+@app.get("/metrics")
+def metrics():
+    return metrics_response()
+
 
 def generate_tracking_code() -> str:
     return "PP-" + secrets.token_hex(4).upper()

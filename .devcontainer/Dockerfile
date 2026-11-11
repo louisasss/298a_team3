@@ -1,4 +1,4 @@
-# Use Python 3.10 on Debian 12 (Bookworm) as the shared development environment.
+﻿# Use Python 3.10 on Debian 12 (Bookworm) as the shared development environment.
 # Pinning the base environment keeps development consistent across team machines.
 FROM mcr.microsoft.com/devcontainers/python:1-3.10-bookworm
 
@@ -60,3 +60,25 @@ RUN ARCH="$(dpkg --print-architecture)" \
     && curl -fsSLo /usr/local/bin/argocd \
        "https://github.com/argoproj/argo-cd/releases/download/${ARGOCD_VERSION}/argocd-linux-${ARCH}" \
     && chmod +x /usr/local/bin/argocd
+RUN apt-get update && apt-get install -y --no-install-recommends gnupg apt-transport-https && rm -rf /var/lib/apt/lists/*
+
+ARG TERRAFORM_VERSION=1.17.0
+RUN curl -fsSLo /tmp/terraform.zip \
+       "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_$(dpkg --print-architecture).zip" \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends unzip \
+    && unzip -o /tmp/terraform.zip -d /usr/local/bin \
+    && rm -f /tmp/terraform.zip \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /etc/apt/keyrings \
+    && curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg \
+       | gpg --dearmor -o /etc/apt/keyrings/cloud.google.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" \
+       > /etc/apt/sources.list.d/google-cloud-sdk.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+       google-cloud-cli \
+       google-cloud-cli-gke-gcloud-auth-plugin \
+    && rm -rf /var/lib/apt/lists/*
+

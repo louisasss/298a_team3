@@ -88,5 +88,17 @@ Current targets:
 - `make cluster-up` — create the local `kind` Kubernetes cluster
 - `make cluster-down` — delete the local `kind` Kubernetes cluster
 - `make platform-up` — install the local platform components
+- `make terraform-fmt` - format Terraform configuration under `infra/`
+- `make cloud-validate` - validate both Terraform roots without a backend
+- `make cloud-plan` - review the disposable GKE plan
+- `make cloud-apply` - apply a reviewed disposable GKE plan with explicit confirmation
+- `make cloud-ready` - fetch credentials and wait for Kubernetes nodes
+- `make cloud-destroy-plan` - review disposable resource deletion
+- `make cloud-destroy` - destroy disposable resources with explicit confirmation
+
+Cloud infrastructure implementation and operator guidance are documented in
+`infra/README.md`. Cloud targets require an existing GCP project, billing
+setup, and a bootstrapped GCS state bucket; they never silently create
+billable resources.
 
 Additional targets will be added as the deployment and evaluation workflows are implemented.

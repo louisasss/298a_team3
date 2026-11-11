@@ -35,3 +35,7 @@ crash.*.log
 # Temporary files
 tmp/
 *.tmp
+*.tfplan
+
+*.tfvars
+!*.tfvars.example

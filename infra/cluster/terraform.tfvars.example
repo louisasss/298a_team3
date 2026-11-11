@@ -1,0 +1,8 @@
+project_id = "replace-with-your-gcp-project-id"
+region = "us-central1"
+zone = "us-central1-a"
+cluster_name = "d298a-dev"
+node_service_account_email = "d298a-gke-nodes@replace-with-your-gcp-project-id.iam.gserviceaccount.com"
+# master_authorized_networks = [
+#   { cidr_block = "203.0.113.10/32", display_name = "operator-1" },
+# ]

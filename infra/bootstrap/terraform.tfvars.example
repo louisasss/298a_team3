@@ -1,0 +1,5 @@
+project_id = "replace-with-your-gcp-project-id"
+state_bucket_name = ""
+billing_account_id = ""
+monthly_budget_usd = 20
+budget_notification_emails = []

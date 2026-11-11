@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-      # TEMPORARY (T3-75 proof): lets this branch run the workflow
-      # before it lands on main. Remove before review.
-      - akshittyagi/t3-75-build-and-push-commit-sha-tagged-images-to-GHCR-on-merge
   workflow_dispatch:
 
 

@@ -1,0 +1,13 @@
+{
+  "risk_level": "medium",
+  "endpoints_touched": ["/items/{id}"],
+  "watch": "Error rate and p95 latency on /items/{id} compared with stable.",
+  "last_deployed_sha": "3f2a9c1e7b8d4f6a0c5e2b9d1f7a3c8e6b4d0f2a",
+  "commit_shas": [
+    "5c8e2f1a9d7b3e6c0f4a8d2b6e1c9f3a7d5b0e8c",
+    "b1d6f3a8c2e9b5d0f7a4c1e8b3d6f9a2c5e0b7d4"
+  ],
+  "partial_brief": false,
+  "llm_name": "small-model-v1",
+  "fallback_used": false
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CI Output",
+  "type": "object",
+  "properties": {
+    "risk_level": {
+      "type": "string", 
+      "enum": ["low", "medium", "high", "unknown"], 
+      "description": "low = changes that cannot affect the running service, medium = changes that affect the logic of one endpoint, high = changes that affect the logic of  two or more endpoints or are irreversible, unknown = agent unavailable (fallback only)"
+    },
+    "endpoints_touched": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1, "pattern": "^/"},
+      "maxItems": 10,
+      "uniqueItems": true
+    },
+    "watch": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "description": "what to keep an eye on after merging"
+    },
+    "fallback_used": {"type": "boolean"},
+    "fallback_reason": {
+      "type": "string", 
+      "enum": ["model_error", "timeout", "invalid_output", "invalid_input"]
+    }
+  },
+  "required": ["risk_level", "endpoints_touched", "fallback_used"],
+  "if": {"properties": {"fallback_used": {"const": true}}},
+  "then": {
+    "properties": {"risk_level": {"const": "unknown"}},
+    "required": ["fallback_reason"],
+    "not": {"required": ["watch"]}
+  },
+  "else": {
+    "properties": {"risk_level": {"enum": ["low", "medium", "high"]}},
+    "required": ["watch"],
+    "not": {"required": ["fallback_reason"]}
+  },
+  "additionalProperties": false
+}

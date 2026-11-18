@@ -1,0 +1,11 @@
+{
+  "decision": "promote",
+  "reason": "Canary and stable error rates and p95 latency are within normal range; classifier rates the canary healthy.",
+  "confidence": 0.85,
+  "fallback_used": false,
+  "classifier": {
+    "called": true,
+    "prediction": "healthy",
+    "probability": 0.07
+  }
+}

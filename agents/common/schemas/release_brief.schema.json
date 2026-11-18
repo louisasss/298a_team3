@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Release Brief",
+  "type": "object",
+  "properties": {
+    "risk_level": {
+      "type": "string", 
+      "enum": ["low", "medium", "high", "unknown"], 
+      "description": "low = changes that cannot affect the running service, medium = changes that affect the logic of one endpoint, high = changes that affect the logic of  two or more endpoints or are irreversible, unknown = agent unavailable (fallback only)"
+    },
+    "endpoints_touched": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1, "pattern": "^/"},
+      "maxItems": 10,
+      "uniqueItems": true
+    },
+    "watch": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "description": "what to keep an eye on during canary"
+    },
+    "last_deployed_sha": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "release_sha": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "commit_shas": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1, "pattern": "^[0-9a-f]{40}$"},
+      "maxItems": 10,
+      "uniqueItems": true
+    },
+    "partial_brief": {"type": "boolean"},
+    "llm_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fallback_used": {"type": "boolean"},
+    "fallback_reason": {
+      "type": "string", 
+      "enum": ["model_error", "timeout", "invalid_output", "invalid_input"]
+    }
+  },
+  "required": ["risk_level", "endpoints_touched", "last_deployed_sha", "release_sha", "commit_shas", "fallback_used"],
+  "if": {"properties": {"fallback_used": {"const": true}}},
+  "then": {
+    "properties": {"risk_level": {"const": "unknown"}, "partial_brief": false},
+    "required": ["fallback_reason"],
+    "not": {"required": ["watch"]}
+  },
+  "else": {
+    "properties": {"risk_level": {"enum": ["low", "medium", "high"]}},
+    "required": ["watch", "partial_brief", "llm_name"],
+    "not": {"required": ["fallback_reason"]}
+  },
+  "additionalProperties": false
+}

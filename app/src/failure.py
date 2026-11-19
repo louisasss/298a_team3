@@ -1,8 +1,9 @@
 import os
-import time
 import random
+import time
 
 from fastapi import HTTPException, Request
+
 
 def _parse_rate(raw):
     try:

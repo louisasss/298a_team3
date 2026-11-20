@@ -4,3 +4,6 @@ kind: Kustomization
 resources:
   - deployment.yaml
   - configmap.yaml
+  - postgres-statefulset.yaml
+  - postgres-service.yaml
+  - postgres-sealedsecret.yaml

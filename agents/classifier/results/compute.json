@@ -1,7 +1,9 @@
 {
   "search_fits": 20,
-  "search_seconds": 22.1,
+  "search_seconds": 2.6,
   "hardware": "Linux-7.0.14-linuxkit-aarch64-with-glibc2.36",
   "cpus": 12,
-  "python": "3.10.18"
+  "python": "3.10.18",
+  "ms_per_window": 0.0153,
+  "model": "gboost"
 }

@@ -85,10 +85,11 @@ for name, grid in GRIDS.items():
 # 9. store hyperparameters in table
 search = pd.DataFrame(results).sort_values("val_ap", ascending=False)       # hyperparameter table
 print(search.drop(columns="params").head(6).to_string(index=False))
+print(search[search.model == "logreg"].sort_values("val_ap", ascending=False).to_string(index=False))   # terminal output
 print(f"{len(search)} fits, {search.fit_seconds.sum():.1f} s total")        # display total time taken by task
 
 # 10. retrieve best vaildation score from hyperparameters table
-best = search.iloc[0]                                   # top row = best validation score
+best = search.iloc[0]          # top row = best validation score
 train_val = pd.concat([train, val])         # combine train and validation data to train final model, test data untouched
 final = make_model(best["model"], best["params"])
 final.fit(train_val[FEATURES], train_val.label)
@@ -178,6 +179,9 @@ mean = curve.groupby("train_runs")[["train_ap", "val_ap"]].mean()
 std = curve.groupby("train_runs")[["train_ap", "val_ap"]].std()
 print(mean.round(3))
 
+# dictionary of model names
+MODEL_NAMES = {"logreg": "Logistic regression", "gboost": "Gradient boosting"}
+
 # plot: one line per score, with a shaded band of plus or minus one standard deviation
 fig, ax = plt.subplots(figsize=(6, 4))
 for col, label in [("train_ap", "training"), ("val_ap", "validation")]:
@@ -185,10 +189,17 @@ for col, label in [("train_ap", "training"), ("val_ap", "validation")]:
     ax.fill_between(mean.index, mean[col] - std[col], mean[col] + std[col], alpha=0.2)
 ax.set_xlabel("training runs")
 ax.set_ylabel("average precision")
-ax.set_title("Canary classifier v0 learning curve (simulated data)")
+ax.set_title(f"{MODEL_NAMES[best['model']]} learning curve\nsimulated v0 data")
 ax.legend()
 fig.tight_layout()
 fig.savefig(f"{OUT}/learning_curve.png", dpi=150)
+
+# record ms per window
+t0 = time.perf_counter()
+for _ in range(100):
+    final.predict_proba(val[FEATURES])
+ms_per_window = (time.perf_counter() - t0) / (100 * len(val)) * 1000
+print(f"{MODEL_NAMES[best['model']]} inference: {ms_per_window:.4f} ms/window")
 
 # compute consumed
 compute = {
@@ -197,6 +208,8 @@ compute = {
     "hardware": platform.platform(),
     "cpus": os.cpu_count(),
     "python": platform.python_version(),
+    "ms_per_window": round(ms_per_window, 4),
+    "model": best["model"],
 }
 with open(f"{OUT}/compute.json", "w") as f:
     json.dump(compute, f, indent=2)

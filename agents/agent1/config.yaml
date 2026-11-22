@@ -1,0 +1,27 @@
+# Agent 1 configuration. See docs/adr/003-single-tool-agent.md
+
+model:
+  provider: "TBD"              # chosen by T3-107 (LLM selection)
+  name: "TBD"
+  api_key_env: "API_KEY"       # name of the env variable, never the key itself
+  price_per_million_tokens:
+    input: 2.00                # mid-tier price from ADR 003
+    output: 10.00
+
+
+budgets:
+  ci_pr:
+    max_seconds: 120
+    max_tool_calls: 8
+    max_tokens: 12000
+    max_cost_usd: 0.035
+  ci_release:
+    max_seconds: 90
+    max_tool_calls: 8
+    max_tokens: 15000
+    max_cost_usd: 0.035
+  analysis:
+    max_seconds: 30
+    max_tool_calls: 10
+    max_tokens: 12000
+    max_cost_usd: 0.035

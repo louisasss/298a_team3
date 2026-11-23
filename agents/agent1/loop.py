@@ -48,8 +48,13 @@ def run_loop(client, budget, prices, tools, tool_definitions, messages):
         messages.append({"role": "assistant", "tool_calls": response.tool_calls})
         for call in response.tool_calls:
             tool_calls += 1
+            if call.name not in tools:
+                return finish("invalid_output")
             function = tools[call.name]
-            result  = function(**call.arguments)
+            try:
+                result  = function(**call.arguments)
+            except Exception:
+                return finish("tool_error")
             messages.append({"role": "tool", "name": call.name, "content": result})
         
 

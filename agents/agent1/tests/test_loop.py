@@ -3,6 +3,9 @@ import pytest
 from loop import run_loop, LoopResult
 from llm import LLMResponse, FakeLLMClient, ToolCall
 
+BUDGET = {"max_seconds": 30, "max_tool_calls": 10, "max_tokens": 12000, "max_cost_usd": 0.035}
+PRICES = {"input": 2.0, "output": 10.0}
+
 # fake tool function
 def fake_rollout_status():
     return {"phase": "Paused"}
@@ -16,8 +19,8 @@ def test_answer_on_first_round():
     fake = FakeLLMClient([LLMResponse(text="promote", input_tokens=1000, output_tokens=100)])
     result = run_loop(
         client=fake,
-        budget={},
-        prices={"input": 2.0, "output": 10.0},
+        budget=BUDGET,
+        prices=PRICES,
         tools={},
         tool_definitions=[],
         messages=["hi"],
@@ -38,8 +41,8 @@ def test_one_tool_request():
     messages =  ["hi"]
     result = run_loop(
         client=fake,
-        budget={},
-        prices={"input": 2.0, "output": 10.0},
+        budget=BUDGET,
+        prices=PRICES,
         tools=tools,
         tool_definitions=[],
         messages=messages,
@@ -57,8 +60,8 @@ def test_model_error_stops_loop():
     fake = FakeLLMClient([RuntimeError("provider down")])
     result = run_loop(
         client=fake,
-        budget={},
-        prices={"input": 2.0, "output": 10.0},
+        budget=BUDGET,
+        prices=PRICES,
         tools={},
         tool_definitions=[],
         messages=["hi"],
@@ -75,8 +78,8 @@ def test_model_error_after_tool_round():
     ])
     result = run_loop(
         client=fake,
-        budget={},
-        prices={"input": 2.0, "output": 10.0},
+        budget=BUDGET,
+        prices=PRICES,
         tools={"rollout_status": fake_rollout_status},
         tool_definitions=[],
         messages=["hi"],
@@ -91,8 +94,8 @@ def test_unknown_tool_response():
     fake = FakeLLMClient([LLMResponse(tool_calls=[ToolCall(name="made_up_tool", arguments={})], input_tokens=500, output_tokens=20)])
     result = run_loop(
         client=fake,
-        budget={},
-        prices={"input": 2.0, "output": 10.0},
+        budget=BUDGET,
+        prices=PRICES,
         tools={},
         tool_definitions=[],
         messages=["hi"],
@@ -106,11 +109,40 @@ def test_existing_tool_broken():
     fake = FakeLLMClient([LLMResponse(tool_calls=[ToolCall(name="prometheus_query", arguments={})], input_tokens=500, output_tokens=20)])
     result = run_loop(
         client=fake,
-        budget={},
-        prices={"input": 2.0, "output": 10.0},
+        budget=BUDGET,
+        prices=PRICES,
         tools={"prometheus_query": broken_tool},
         tool_definitions=[],
         messages=["hi"],
     )
     assert result.stop_reason == "tool_error"
+    assert len(fake.calls) == 1
+
+# test: single response over budget
+def test_single_response_over_budget():
+    fake = FakeLLMClient([LLMResponse(text="promote", input_tokens=20000, output_tokens=100)])
+    result = run_loop(
+        client=fake,
+        budget=BUDGET,
+        prices=PRICES,
+        tools={},
+        tool_definitions=[],
+        messages=["hi"],
+    )
+    assert result.stop_reason == "budget_exceeded"
+    assert result.text is None
+
+# test: exceed tool budget
+def test_tool_budget():
+    fake = FakeLLMClient([LLMResponse(tool_calls=[ToolCall(name="rollout_status", arguments={}), ToolCall(name="rollout_status", arguments={})], input_tokens=500, output_tokens=20)])
+    result = run_loop(
+        client=fake,
+        budget={**BUDGET, "max_tool_calls": 1},
+        prices=PRICES,
+        tools={"rollout_status": fake_rollout_status},
+        tool_definitions=[],
+        messages=["hi"],
+    )
+    assert result.stop_reason == "budget_exceeded"
+    assert result.tool_calls == 2
     assert len(fake.calls) == 1

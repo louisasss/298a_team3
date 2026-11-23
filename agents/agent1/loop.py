@@ -41,6 +41,9 @@ def run_loop(client, budget, prices, tools, tool_definitions, messages):
         input_tokens += response.input_tokens
         output_tokens += response.output_tokens
         cost_usd = input_tokens / 1000000 * prices["input"]  +  output_tokens / 1000000 * prices["output"]
+
+        if (input_tokens + output_tokens) > budget["max_tokens"] or cost_usd > budget["max_cost_usd"]:
+            return finish("budget_exceeded")
         
         if response.text is not None and not response.tool_calls:
             return finish("done", text=response.text)
@@ -48,6 +51,8 @@ def run_loop(client, budget, prices, tools, tool_definitions, messages):
         messages.append({"role": "assistant", "tool_calls": response.tool_calls})
         for call in response.tool_calls:
             tool_calls += 1
+            if tool_calls > budget["max_tool_calls"]:
+                return finish("budget_exceeded")
             if call.name not in tools:
                 return finish("invalid_output")
             function = tools[call.name]

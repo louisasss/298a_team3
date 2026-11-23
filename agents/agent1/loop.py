@@ -33,6 +33,8 @@ def run_loop(client, budget, prices, tools, tool_definitions, messages):
         )
 
     while True:
+        if (time.monotonic() - start) > budget["max_seconds"]:
+            return finish("timeout")
         try:
             response = client.complete(messages, tool_definitions)
         except Exception:

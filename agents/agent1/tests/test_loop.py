@@ -1,4 +1,5 @@
 import pytest 
+import time
 
 from loop import run_loop, LoopResult
 from llm import LLMResponse, FakeLLMClient, ToolCall
@@ -13,6 +14,11 @@ def fake_rollout_status():
 # fake failing tool function
 def broken_tool():
     raise RuntimeError("prometheus down")
+
+# slow time function
+def slow_tool():
+    time.sleep(0.05)
+    return {"phase": "Paused"}
 
 # test: answer on first round 
 def test_answer_on_first_round():
@@ -146,3 +152,21 @@ def test_tool_budget():
     assert result.stop_reason == "budget_exceeded"
     assert result.tool_calls == 2
     assert len(fake.calls) == 1
+
+# test: exceed time budget
+def test_time_budget():
+    fake = FakeLLMClient([
+        LLMResponse(tool_calls=[ToolCall(name="rollout_status", arguments={})], input_tokens=500, output_tokens=20),
+        LLMResponse(text="promote", input_tokens=800, output_tokens=50)
+    ])
+    result = run_loop(
+        client=fake,
+        budget={**BUDGET, "max_seconds": 0.01},
+        prices=PRICES,
+        tools={"rollout_status": slow_tool},
+        tool_definitions=[],
+        messages=["hi"],
+    )
+    assert result.stop_reason == "timeout"
+    assert len(fake.calls) == 1
+    assert result.text is None

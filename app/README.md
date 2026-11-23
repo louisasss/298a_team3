@@ -44,3 +44,19 @@ In practice:
   the old column in a following release.
 - Every migration ships with code that works with both the schema
   before it and the schema after it.
+
+
+## Failure injection
+
+Three environment variables turn the running service bad on purpose, for
+canary analysis and the failure scenario suite. All three are off by
+default, are read once at startup (change them and restart), and never
+affect /healthz, /readyz, /metrics, or /version.
+
+- `FAILURE_ERROR_RATE` — probability (0 to 1) that a business request
+  fails with a 500 before doing any work. Unset or 0 means no failures.
+- `FAILURE_LATENCY_MS` — milliseconds of delay added to each business
+  request before the failure roll. Unset or 0 means no added latency.
+- `FAILURE_TARGET` — restricts injection to one operation, written as
+  method + route template, e.g. `POST /shipments`. Unset means all
+  business operations.

@@ -1,9 +1,14 @@
 import os
 import time
 
-from prometheus_client import CONTENT_TYPE_LATEST, Counter, Gauge, generate_latest, Histogram
+from prometheus_client import (
+    CONTENT_TYPE_LATEST,
+    Counter,
+    Gauge,
+    Histogram,
+    generate_latest,
+)
 from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.requests import Request
 from starlette.responses import Response
 
 VERSION = os.environ.get("APP_VERSION", "dev")

@@ -46,7 +46,7 @@ All tools are read-only. No tool can write to the cluster, the repository, or Pr
 * **Timing chain constraint:** agent deadline (30 s) < Web provider timeoutSeconds (35 s, D02) < analysis interval (60 s, D03, proposed; Pragya to confirm).
 
 **Fallback:**
-Fallback is triggered by one of three failure types: the model call errors, the agent exceeds its time budget, or the agent returns invalid JSON. 
+Fallback is triggered by one of five failure types: model error, time budget exceeded, invalid output, another budget exceeded (tokens, cost or tool calls), or a tool failure. 
 
 * At the CI stage when fallback occurs the PR proceeds with an "agent unavailable" comment attached, so the reviewers know there is no agent input. If the release brief generation fails, the release still proceeds with the brief marked unavailable. 
 * In the analysis stage fallback returns the static check's results if there is data. If there is no data to make a decision with using the static results, fallback returns inconclusive which pauses the rollout at its current step until manually reviewed by a human who promotes or aborts the release.

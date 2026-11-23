@@ -1,0 +1,7 @@
+{
+  "decision": "inconclusive",
+  "reason": "Agent exceeded its tool budget.",
+  "confidence": null,
+  "fallback_used": true,
+  "fallback_reason": "tool_error"
+}

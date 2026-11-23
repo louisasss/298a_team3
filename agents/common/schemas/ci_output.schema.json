@@ -23,7 +23,7 @@
     "fallback_used": {"type": "boolean"},
     "fallback_reason": {
       "type": "string", 
-      "enum": ["model_error", "timeout", "invalid_output", "invalid_input"]
+      "enum": ["model_error", "timeout", "invalid_output", "invalid_input", "budget_exceeded", "tool_error"]
     }
   },
   "required": ["risk_level", "endpoints_touched", "fallback_used"],

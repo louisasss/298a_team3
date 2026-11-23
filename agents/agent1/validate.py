@@ -22,7 +22,15 @@ def is_valid(schema_name, data):
     return True
 
 def parse_output(mode, text):
-    pass
+    try:
+        data = json.loads(text)
+    except json.JSONDecodeError:
+        return None
+    if not is_valid(schema_name=OUTPUT_SCHEMAS[mode],data=data):
+        return None
+    if data.get("fallback_used"):
+        return None
+    return data    
 
 def build_fallback(mode, reason, static_decision, input_data):
     pass

@@ -35,3 +35,6 @@ crash.*.log
 # Temporary files
 tmp/
 *.tmp
+
+# Agent classifier data
+agents/classifier/data/

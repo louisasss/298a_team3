@@ -49,6 +49,9 @@ def run_loop(client, budget, prices, tools, tool_definitions, messages):
         
         if response.text is not None and not response.tool_calls:
             return finish("done", text=response.text)
+
+        if not response.tool_calls:
+            return finish("invalid_output")
         
         messages.append({"role": "assistant", "tool_calls": response.tool_calls})
         for call in response.tool_calls:

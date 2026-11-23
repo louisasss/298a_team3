@@ -170,3 +170,17 @@ def test_time_budget():
     assert result.stop_reason == "timeout"
     assert len(fake.calls) == 1
     assert result.text is None
+
+# test: empty response
+def test_empty_response():
+    fake = FakeLLMClient([LLMResponse()])
+    result = run_loop(
+        client=fake,
+        budget=BUDGET,
+        prices=PRICES,
+        tools={},
+        tool_definitions=[],
+        messages=["hi"],
+    )
+    assert result.stop_reason == "invalid_output"
+    assert len(fake.calls) == 1

@@ -32,5 +32,17 @@ def parse_output(mode, text):
         return None
     return data    
 
-def build_fallback(mode, reason, static_decision, input_data):
-    pass
+def build_fallback(mode, reason, static_decision=None, input_data=None):
+    if mode == "analysis":
+        if static_decision in ("promote", "abort"):
+            decision = static_decision
+        else:
+            decision = "inconclusive"
+        return {
+            "decision": decision,
+            "reason": "Agent fell back (timeout); used static check result.",
+            "confidence": None,
+            "fallback_used": True,
+            "fallback_reason": reason
+        }
+    

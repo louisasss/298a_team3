@@ -1,7 +1,7 @@
 import pytest
 import json
 
-from validate import is_valid, parse_output
+from validate import is_valid, parse_output, build_fallback
 
 # a valid analysis fallback output (from fixtures/analysis_output/valid/fallback_timeout.json)
 @pytest.fixture
@@ -49,3 +49,20 @@ def test_parse_wrong_shape():
 def test_parse_rejects_model_fallback(fallback_output):
     text = json.dumps(fallback_output)
     assert parse_output("analysis", text) is None
+
+# test: static check has data → fallback copies its decision
+def test_fallback_uses_static_abort():
+    result = build_fallback("analysis", "timeout", "abort")
+    assert result["decision"] == "abort"
+    assert result["fallback_reason"] == "timeout"
+    assert is_valid("analysis_output", result)
+
+def test_static_promote():
+    result = build_fallback("analysis", "tool_error", "promote")
+    assert result["decision"] == "promote"
+    assert is_valid("analysis_output", result)
+
+def test_no_static_data():
+    result = build_fallback("analysis", "model_error")
+    assert result["decision"] == "inconclusive"
+    assert is_valid("analysis_output", result)

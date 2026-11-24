@@ -66,6 +66,7 @@ def test_no_static_data():
     result = build_fallback("analysis", "model_error")
     assert result["decision"] == "inconclusive"
     assert is_valid("analysis_output", result)
+    assert "no data" in result["reason"]
 
 # test: CI PR fallback
 def test_fallback_ci_pr():

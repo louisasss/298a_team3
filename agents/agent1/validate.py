@@ -36,11 +36,13 @@ def build_fallback(mode, reason, static_decision=None, input_data=None):
     if mode == "analysis":
         if static_decision in ("promote", "abort"):
             decision = static_decision
+            reason_text = f"Agent fell back ({reason}); used static check result."
         else:
             decision = "inconclusive"
+            reason_text = f"Agent fell back ({reason}); static check had no data, paused for human review."
         return {
             "decision": decision,
-            "reason": f"Agent fell back ({reason}); used static check result.",
+            "reason": reason_text,
             "confidence": None,
             "fallback_used": True,
             "fallback_reason": reason

@@ -1,8 +1,8 @@
 import json
 
+from log import build_record, write_record
 from loop import run_loop
-from validate import INPUT_SCHEMAS, is_valid, parse_output, build_fallback
-from log import build_record, write_record 
+from validate import INPUT_SCHEMAS, build_fallback, is_valid, parse_output
 
 SYSTEM_PROMPTS = {
     "analysis": "You judge canary releases. Use the tools to check the canary, then answer with JSON matching the analysis_output schema.",

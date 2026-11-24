@@ -1,8 +1,8 @@
-import pytest 
 import time
 
-from loop import run_loop, LoopResult
-from llm import LLMResponse, FakeLLMClient, ToolCall
+import pytest
+from llm import FakeLLMClient, LLMResponse, ToolCall
+from loop import run_loop
 
 BUDGET = {"max_seconds": 30, "max_tool_calls": 10, "max_tokens": 12000, "max_cost_usd": 0.035}
 PRICES = {"input": 2.0, "output": 10.0}

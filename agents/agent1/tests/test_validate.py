@@ -1,7 +1,8 @@
-import pytest
 import json
 
-from validate import is_valid, parse_output, build_fallback
+import pytest
+from validate import build_fallback, is_valid, parse_output
+
 
 # a valid analysis fallback output (from fixtures/analysis_output/valid/fallback_timeout.json)
 @pytest.fixture

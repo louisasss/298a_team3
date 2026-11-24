@@ -1,5 +1,6 @@
 import pytest
-from llm import FakeLLMClient, LLMResponse, ToolCall
+from llm import FakeLLMClient, LLMResponse
+
 
 # responses come back in order
 def test_reponses_order():

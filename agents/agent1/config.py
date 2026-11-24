@@ -1,4 +1,5 @@
 from pathlib import Path
+
 import yaml
 
 DEFAULT_PATH = Path(__file__).parent / "config.yaml"
@@ -7,7 +8,7 @@ MODES = ("ci_pr", "ci_release", "analysis")
 LIMITS = ("max_seconds", "max_tool_calls", "max_tokens", "max_cost_usd")
 
 def load_config(path=DEFAULT_PATH):
-    with open(path, "r", encoding="utf-8") as file:
+    with open(path, encoding="utf-8") as file:
         config = yaml.safe_load(file)
         check_config(config)
         return config

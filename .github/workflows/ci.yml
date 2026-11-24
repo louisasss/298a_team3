@@ -15,7 +15,7 @@ jobs:
       - name: Install Ruff
         run: pip install ruff==0.17.4
       - name: Lint
-        run: ruff check app/
+        run: ruff check app/ agents/
 
   
   test:

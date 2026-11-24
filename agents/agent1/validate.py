@@ -1,5 +1,6 @@
-from pathlib import Path
 import json
+from pathlib import Path
+
 import jsonschema
 
 SCHEMA_DIR = Path(__file__).parent.parent / "common" / "schemas"
@@ -8,7 +9,7 @@ INPUT_SCHEMAS = {"analysis": "analysis_input", "ci_pr": "ci_input", "ci_release"
 OUTPUT_SCHEMAS = {"analysis": "analysis_output", "ci_pr": "ci_output", "ci_release": "release_brief"}
 
 def load_schema(name):
-    with open(SCHEMA_DIR / f"{name}.schema.json", "r", encoding="utf-8") as file:
+    with open(SCHEMA_DIR / f"{name}.schema.json", encoding="utf-8") as file:
         schema = json.load(file)
         return schema
 

@@ -1,6 +1,6 @@
 import pytest
-
 from config import check_config, load_config
+
 
 # correct config example
 @pytest.fixture

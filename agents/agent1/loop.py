@@ -1,5 +1,6 @@
-from dataclasses import dataclass
 import time
+from dataclasses import dataclass
+
 
 @dataclass
 class LoopResult:
@@ -37,7 +38,7 @@ def run_loop(client, budget, prices, tools, tool_definitions, messages):
             return finish("timeout")
         try:
             response = client.complete(messages, tool_definitions)
-        except Exception:
+        except Exception:   # noqa: BLE001 - any provider failure must fall back, not crash
             return finish("model_error")
         
         input_tokens += response.input_tokens
@@ -63,7 +64,7 @@ def run_loop(client, budget, prices, tools, tool_definitions, messages):
             function = tools[call.name]
             try:
                 result  = function(**call.arguments)
-            except Exception:
+            except Exception:   # noqa: BLE001 - any tool failure must fall back, not crash
                 return finish("tool_error")
             messages.append({"role": "tool", "name": call.name, "content": result})
         

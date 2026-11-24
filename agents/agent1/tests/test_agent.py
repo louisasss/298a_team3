@@ -1,9 +1,8 @@
-import pytest
 import json
 
 from agent import run_agent
 from config import load_config
-from llm import LLMResponse, FakeLLMClient
+from llm import FakeLLMClient, LLMResponse
 from validate import is_valid
 
 GOOD_INPUT = {

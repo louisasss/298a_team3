@@ -2,6 +2,7 @@ import json
 
 from loop import run_loop
 from validate import INPUT_SCHEMAS, is_valid, parse_output, build_fallback
+from log import build_record, write_record 
 
 SYSTEM_PROMPTS = {
     "analysis": "You judge canary releases. Use the tools to check the canary, then answer with JSON matching the analysis_output schema.",
@@ -9,9 +10,15 @@ SYSTEM_PROMPTS = {
     "ci_release": "You summarize all changes between the last deploy and the release commit. Use the tools to investigate all changes since the last deploy, then answer with JSON matching the release_brief schema",
 }
 
-def run_agent(mode, input_data, client, config, tools, tool_definitions, static_decision=None):
+def run_agent(mode, input_data, client, config, tools, tool_definitions, static_decision=None, log_path=None):
+    def finish(output, loop_result):
+        if log_path:
+            record = build_record(mode, config, output, loop_result, static_decision)
+            write_record(log_path, record)
+        return output, loop_result
+    
     if not is_valid(INPUT_SCHEMAS[mode], input_data):
-        return build_fallback(mode, "invalid_input", static_decision, input_data), None
+        return finish(build_fallback(mode, "invalid_input", static_decision, input_data), None)
 
     budget = config["budgets"][mode]
     prices = config["model"]["price_per_million_tokens"]
@@ -22,10 +29,10 @@ def run_agent(mode, input_data, client, config, tools, tool_definitions, static_
     
     loop_result = run_loop(client, budget, prices, tools, tool_definitions, messages)
     if loop_result.stop_reason != "done":
-        return build_fallback(mode, loop_result.stop_reason, static_decision, input_data), loop_result
+        return finish(build_fallback(mode, loop_result.stop_reason, static_decision, input_data), loop_result)
 
     output = parse_output(mode, loop_result.text)
     if output is None:
-        return build_fallback(mode, "invalid_output", static_decision, input_data), loop_result
-    return output, loop_result
+        return finish(build_fallback(mode, "invalid_output", static_decision, input_data), loop_result)
+    return finish(output, loop_result)
     

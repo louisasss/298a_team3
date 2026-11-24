@@ -91,3 +91,45 @@ def test_messages_built_from_input():
     messages = fake.calls[0]["messages"]
     assert messages[0]["role"] == "system"
     assert messages[1]["content"] == json.dumps(GOOD_INPUT)
+
+# test: a successful run writes one log record
+def test_success_is_logged(tmp_path):
+    log_path = tmp_path / "log.jsonl"
+    fake = FakeLLMClient([LLMResponse(text=GOOD_ANSWER, input_tokens=1000, output_tokens=100)])
+    output, loop_result = run_agent(
+        mode="analysis",
+        input_data=GOOD_INPUT,
+        client=fake,
+        config=CONFIG,
+        tools={},
+        tool_definitions=[],
+        log_path=log_path,
+    )
+    lines = log_path.read_text().splitlines()
+    assert len(lines) == 1
+    record = json.loads(lines[0])
+    assert record["result"] == output["decision"]
+    assert record["stop_reason"] == "done"
+    assert record["input_tokens"] == 1000
+
+
+# test: a fallback is logged too, with its reason and the static decision
+def test_fallback_is_logged(tmp_path):
+    log_path = tmp_path / "log.jsonl"
+    fake = FakeLLMClient([RuntimeError("provider down")])
+    output, loop_result = run_agent(
+        mode="analysis",
+        input_data=GOOD_INPUT,
+        client=fake,
+        config=CONFIG,
+        tools={},
+        tool_definitions=[],
+        static_decision="abort",
+        log_path=log_path,
+    )
+    lines = log_path.read_text().splitlines()
+    assert len(lines) == 1
+    record = json.loads(lines[0])
+    assert record["result"] == "abort"
+    assert record["fallback_reason"] == "model_error"
+    assert record["static_decision"] == "abort"

@@ -40,9 +40,27 @@ def build_fallback(mode, reason, static_decision=None, input_data=None):
             decision = "inconclusive"
         return {
             "decision": decision,
-            "reason": "Agent fell back (timeout); used static check result.",
+            "reason": f"Agent fell back ({reason}); used static check result.",
             "confidence": None,
             "fallback_used": True,
             "fallback_reason": reason
         }
+    if mode == "ci_pr":
+        return {
+            "risk_level": "unknown",
+            "endpoints_touched": [],
+            "fallback_used": True,
+            "fallback_reason": reason
+        }
+    if mode == "ci_release":
+        return {
+            "risk_level": "unknown",
+            "endpoints_touched": [],
+            "fallback_used": True,
+            "fallback_reason": reason,
+            "last_deployed_sha": input_data["base_sha"],
+            "release_sha": input_data["head_sha"],
+            "commit_shas": []
+        }
+    raise ValueError(f"unknown mode: {mode}")
     

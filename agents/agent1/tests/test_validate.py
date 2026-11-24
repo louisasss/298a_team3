@@ -66,3 +66,32 @@ def test_no_static_data():
     result = build_fallback("analysis", "model_error")
     assert result["decision"] == "inconclusive"
     assert is_valid("analysis_output", result)
+
+# test: CI PR fallback
+def test_fallback_ci_pr():
+    result = build_fallback("ci_pr", "timeout")
+    assert result["risk_level"] == "unknown"
+    assert result["endpoints_touched"] == []
+    assert result["fallback_reason"] == "timeout"
+    assert is_valid("ci_output", result)
+
+
+# test: release brief fallback copies the SHAs from the input
+def test_fallback_release_brief():
+    input_data = {
+        "ci_agent_produces": "release_brief",
+        "base_sha": "3f2a9c1e7b8d4f6a0c5e2b9d1f7a3c8e6b4d0f2a",
+        "head_sha": "9e4b7c2a1f8d3e6b0a5c9f2d7e1b4a8c3f6d0e9b",
+    }
+    result = build_fallback("ci_release", "model_error", input_data=input_data)
+    assert result["last_deployed_sha"] == input_data["base_sha"]
+    assert result["release_sha"] == input_data["head_sha"]
+    assert result["commit_shas"] == []
+    assert result["risk_level"] == "unknown"
+    assert is_valid("release_brief", result)
+
+
+# test: a mode name that doesn't exist raises instead of returning None
+def test_fallback_unknown_mode():
+    with pytest.raises(ValueError, match="unknown mode"):
+        build_fallback("anlysis", "timeout")

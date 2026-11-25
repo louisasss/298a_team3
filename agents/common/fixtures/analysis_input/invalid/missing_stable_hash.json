@@ -1,0 +1,5 @@
+{
+  "canary_pod_hash": "7d9f8c6b5",
+  "rollout_name": "demo-app",
+  "namespace": "demo"
+}

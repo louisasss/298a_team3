@@ -43,6 +43,15 @@ helm upgrade --install kube-prometheus-stack \
   --wait \
   --timeout 10m
 
+echo "Installing Sealed Secrets controller..."
+
+kubectl apply -f https://github.com/bitnami/sealed-secrets/releases/download/v0.41.2/controller.yaml
+
+kubectl wait --for=condition=Established crd/sealedsecrets.bitnami.com --timeout=5m
+
+kubectl rollout status deployment/sealed-secrets-controller --namespace kube-system --timeout=5m
+
+
 echo "Configuring agent API key Secret..."
 
 if [[ -n "${AGENT_API_KEY:-}" ]]; then

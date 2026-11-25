@@ -1,12 +1,12 @@
 # Agent 1 configuration. See docs/adr/003-single-tool-agent.md
 
 model:
-  provider: "TBD"              # chosen by T3-107 (LLM selection)
-  name: "TBD"
-  api_key_env: "API_KEY"       # name of the env variable, never the key itself
+  provider: "anthropic"
+  name: "claude-haiku-5-5"  # Sonnet 5.5 (claude-sonnet-5-5) is the other candidate; swap here for the comparison (T3-107)
+  api_key_env: "API_KEY"
   price_per_million_tokens:
-    input: 2.00                # mid-tier price from ADR 003
-    output: 10.00
+    input: 0.10                
+    output: 0.50
 
 
 budgets:

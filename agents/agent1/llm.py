@@ -5,6 +5,7 @@ from dataclasses import dataclass, field
 class ToolCall:
     name: str
     arguments: dict
+    id: str = ""
 
 @dataclass
 class LLMResponse:

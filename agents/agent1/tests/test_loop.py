@@ -40,7 +40,7 @@ def test_answer_on_first_round():
 # test: one tool request then an answer
 def test_one_tool_request():
     fake = FakeLLMClient([
-        LLMResponse(tool_calls=[ToolCall(name="rollout_status", arguments={})], input_tokens=500, output_tokens=20), 
+        LLMResponse(tool_calls=[ToolCall(name="rollout_status", arguments={}, id="call_1")], input_tokens=500, output_tokens=20), 
         LLMResponse(text="promote", input_tokens=800, output_tokens=50)
     ])
     tools={"rollout_status": fake_rollout_status}
@@ -58,7 +58,7 @@ def test_one_tool_request():
     assert result.input_tokens == 1300
     assert result.output_tokens == 70
     assert len(fake.calls) == 2
-    assert fake.calls[1]["messages"][-1] == {"role": "tool", "name": "rollout_status", "content": {"phase": "Paused"}}
+    assert fake.calls[1]["messages"][-1] == {"role": "tool", "name": "rollout_status", "content": {"phase": "Paused"}, "id": "call_1"}
     assert messages == ["hi"]
 
 # test: the model call fails

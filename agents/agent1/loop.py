@@ -66,7 +66,7 @@ def run_loop(client, budget, prices, tools, tool_definitions, messages):
                 result  = function(**call.arguments)
             except Exception:   # noqa: BLE001 - any tool failure must fall back, not crash
                 return finish("tool_error")
-            messages.append({"role": "tool", "name": call.name, "content": result})
+            messages.append({"role": "tool", "name": call.name, "content": result, "id": call.id})
         
 
 
